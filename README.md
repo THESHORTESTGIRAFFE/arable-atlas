@@ -32,27 +32,30 @@ SECRET_KEY=your_flask_secret_key
 
 ## Getting Started
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/THESHORTESTGIRAFFE/arable-atlas.git
-   cd arable-atlas
-   ```
+You can set up the project instantly using our automated setup script:
 
-2. Install dependencies:
-   ```bash
-   pip install -r req
-   ```
+```bash
+git clone https://github.com/THESHORTESTGIRAFFE/arable-atlas.git
+cd arable-atlas
+python quick-setup.py
+```
 
-3. Set up your `.env` file with your API keys.
+This script will:
+1. Check your Python version.
+2. Install all required dependencies from `req`.
+3. Generate your `.env` configuration file.
+4. Set up necessary project directories.
 
-4. Run the development server:
-   ```bash
-   python app.py
-   ```
-   Or run the production server:
-   ```bash
-   python run_production.py
-   ```
+After setup, populate your `.env` file with your API keys and run the application:
+
+- **Development mode:**
+  ```bash
+  python app.py
+  ```
+- **Production mode:**
+  ```bash
+  python run_production.py
+  ```
 
 ## Repository
 
