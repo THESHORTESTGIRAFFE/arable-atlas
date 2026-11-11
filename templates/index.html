@@ -1,0 +1,117 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+<!-- Hero Section -->
+<section class="hero-section text-center text-lg-start position-relative overflow-hidden">
+  <div class="hero-video-container">
+    <video autoplay muted loop playsinline class="hero-video">
+      <source src="{{ url_for('static', filename='video/hero-bg.mp4') }}" type="video/mp4">
+      <img src="{{ url_for('static', filename='img/landing.webp') }}" alt="African Farm">
+    </video>
+    <div class="hero-overlay"></div>
+  </div>
+
+  <div class="container z-10">
+    <div class="row align-items-center">
+      <div class="col-lg-7 animate__animated animate__fadeIn">
+        <span class="badge rounded-pill bg-success-subtle text-success px-3 py-2 mb-4 tracking-wider text-uppercase" style="font-size: 0.7rem; font-weight: 700;">
+            Precision for the Land
+        </span>
+        <h1 class="hero-title">
+          The Future of Farming <br class="d-none d-md-block"> is Written in Soil.
+        </h1>
+        <p class="lead mb-5 opacity-90">
+          Arable Atlas empowers agricultural excellence with precision data, intelligent crop matching, and advanced mapping.
+        </p>
+        <div class="d-flex flex-column flex-sm-row gap-3">
+          <a href="{{ url_for('home') }}" class="btn-modern btn-primary-modern">
+            Analyze Your Land
+          </a>
+          <a href="{{ url_for('assistant') }}" class="btn-modern btn-outline-light border-2 text-white">
+            Meet Plotty 🌱
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Bento Grid Features -->
+<section class="py-5 my-5">
+  <div class="container">
+    <div class="row justify-content-between align-items-end mb-5">
+      <div class="col-lg-6">
+        <h2 class="display-5 fw-bold mb-0">Deciphering the Earth's Intelligence</h2>
+      </div>
+      <div class="col-lg-4">
+        <p class="text-muted mb-0">Our platform bridges the gap between traditional wisdom and modern precision data.</p>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      <!-- Feature 1: Large -->
+      <div class="col-lg-8">
+        <div class="glass-panel p-5 h-100 hover-up bg-white overflow-hidden position-relative">
+          <div class="row align-items-center h-100">
+            <div class="col-md-7 z-10">
+              <div class="mb-4 text-primary">
+                <i class='bx bx-search-alt-2 fs-1'></i>
+              </div>
+              <h3 class="fw-bold mb-3">Smart Soil Insights</h3>
+              <p class="text-muted lead fs-6">Uncover the chemical secrets of your land. From pH balance to nutrient density, we provide a complete profile instantly.</p>
+              <a href="{{ url_for('home') }}" class="btn btn-link text-primary p-0 fw-bold text-decoration-none mt-3">
+                Start Analysis <i class='bx bx-right-arrow-alt'></i>
+              </a>
+            </div>
+            <div class="col-md-5 d-none d-md-block">
+                <div class="bg-success-subtle rounded-circle position-absolute" style="width: 400px; height: 400px; top: -100px; right: -150px; opacity: 0.3;"></div>
+                <i class='bx bxs-leaf text-success position-absolute opacity-10' style="font-size: 250px; bottom: -50px; right: -50px;"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature 2: Small -->
+      <div class="col-lg-4">
+        <div class="glass-panel p-5 h-100 hover-up bg-success text-white">
+          <div class="mb-4">
+            <i class='bx bx-map-pin fs-1'></i>
+          </div>
+          <h3 class="fw-bold mb-3">Precision Mapping</h3>
+          <p class="opacity-90 small">Geospatial intelligence at your fingertips. Map conditions across every acre with surgical precision.</p>
+        </div>
+      </div>
+
+      <!-- Feature 3: Small -->
+      <div class="col-lg-4">
+        <div class="glass-panel p-5 h-100 hover-up bg-warning-subtle border-0">
+          <div class="mb-4 text-warning">
+            <i class='bx bx-refresh fs-1'></i>
+          </div>
+          <h4 class="fw-bold mb-3">Crop Matchmaker</h4>
+          <p class="text-muted small">Algorithmic matching of soil profiles to optimal crop varieties for maximum yield.</p>
+        </div>
+      </div>
+
+      <!-- Feature 4: Large -->
+      <div class="col-lg-8">
+        <div class="glass-panel p-5 h-100 hover-up d-flex flex-column justify-content-center" style="background: url('{{ url_for('static', filename='img/landing.jpg') }}') center/cover; min-height: 300px;">
+            <div class="p-4 bg-white bg-opacity-75 rounded-4 backdrop-blur w-75">
+                <h4 class="fw-bold mb-2">Sustainable Success</h4>
+                <p class="text-muted small mb-0">We empower farmers to grow not just for today, but for a greener, more resilient future.</p>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .backdrop-blur {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+</style>
+
+
+{% endblock content %}

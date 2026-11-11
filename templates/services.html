@@ -1,0 +1,88 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+<section class="py-5">
+  <div class="container">
+    <div class="row justify-content-center mb-5">
+      <div class="col-lg-8 text-center">
+        <span class="metric-badge mb-3">Our Services</span>
+        <h2 class="display-5 fw-bold mb-4">Precision Intelligence for Every Acre</h2>
+        <p class="lead text-muted">Because your soil has secrets, and we have the tools to decode them. Discover how Arable Atlas transforms farming with data.</p>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      <!-- Service Cards -->
+      <div class="col-md-4">
+        <div class="glass-panel p-5 h-100 hover-up bg-white">
+          <div class="mb-4 text-primary">
+            <i class='bx bx-brain fs-1'></i>
+          </div>
+          <h4 class="fw-bold mb-3">AI Soil Analysis</h4>
+          <p class="text-muted small">Decode pH, moisture, and nutrient levels instantly. Our AI provides a detailed profile of your land without traditional lab tests.</p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="glass-panel p-5 h-100 hover-up bg-success text-white">
+          <div class="mb-4">
+            <i class='bx bx-spa fs-1'></i>
+          </div>
+          <h4 class="fw-bold mb-3">Smart Crop Matching</h4>
+          <p class="small opacity-90">Match your soil's unique personality with the perfect crops. Eliminate guesswork and maximize harvest potential with precision matching.</p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="glass-panel p-5 h-100 hover-up bg-white">
+          <div class="mb-4 text-warning">
+            <i class='bx bx-map-pin fs-1'></i>
+          </div>
+          <h4 class="fw-bold mb-3">Precision Mapping</h4>
+          <p class="text-muted small">Visualize the health of your land. Our interactive maps pinpoint high-yield areas and sections that need nutritional support.</p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="glass-panel p-5 h-100 hover-up bg-white">
+          <div class="mb-4 text-info">
+            <i class='bx bx-stats fs-1'></i>
+          </div>
+          <h4 class="fw-bold mb-3">Data-Driven Insights</h4>
+          <p class="text-muted small">Farming is a science. Get real-time data on water retention, seasonal changes, and historical soil performance to plan smarter.</p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="glass-panel p-5 h-100 hover-up bg-white">
+          <div class="mb-4 text-danger">
+            <i class='bx bx-bot fs-1'></i>
+          </div>
+          <h4 class="fw-bold mb-3">24/7 AI Assistant</h4>
+          <p class="text-muted small">Plotty never sleeps. Get expert advice on pests, irrigation, and soil management whenever you need it.</p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="glass-panel p-5 h-100 hover-up bg-white">
+          <div class="mb-4 text-secondary">
+            <i class='bx bx-droplet fs-1'></i>
+          </div>
+          <h4 class="fw-bold mb-3">Water Optimization</h4>
+          <p class="text-muted small">Optimize your irrigation schedules. Our AI helps ensure your plants get exactly the right amount of water for growth.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Atmospheric Image -->
+    <div class="mt-5 rounded-4 overflow-hidden" style="height: 300px;">
+        <img src="https://picsum.photos/seed/farm-land/1200/300" class="w-100 h-100 object-fit-cover" alt="Vibrant farm fields">
+    </div>
+
+    <div class="mt-5 text-center">
+      <a href="{{ url_for('home') }}" class="btn-modern btn-primary-modern px-5">Start Your Analysis Today</a>
+    </div>
+  </div>
+</section>
+
+{% endblock content %}

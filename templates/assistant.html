@@ -1,0 +1,150 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+<section class="py-5 bg-light min-vh-100">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 col-xl-7">
+
+        <div class="text-center mb-5 animate__animated animate__fadeIn">
+          <span class="metric-badge mb-3">AI Consultation</span>
+          <h2 class="display-5 fw-bold mb-1">Meet Plotty 🌱</h2>
+          <p class="text-muted small text-uppercase tracking-widest">Your Professional Farming Expert</p>
+        </div>
+
+        <!-- Chat Container -->
+        <div class="glass-panel d-flex flex-column animate__animated animate__fadeInUp border-0 bg-white"
+          style="height: 700px; overflow: hidden; box-shadow: var(--shadow-soft);">
+
+          <!-- Chat Header -->
+          <div class="p-4 border-bottom bg-white d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+              <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3"
+                style="width: 50px; height: 50px;">
+                <i class='bx bx-bot fs-3'></i>
+              </div>
+              <div>
+                <h6 class="mb-0 fw-bold">Plotty 🌱</h6>
+                <div class="d-flex align-items-center">
+                  <span class="bg-success rounded-circle me-1" style="width: 8px; height: 8px;"></span>
+                  <span class="text-muted mt-0" style="font-size: 0.75rem;">Connected</span>
+                </div>
+              </div>
+            </div>
+            <div style="width: 140px;">
+              <select id="languageSelect" class="form-select form-select-sm rounded-pill border-0 bg-light px-3 fw-bold">
+                <option value="en" selected>English</option>
+                <option value="sn">Shona</option>
+                <option value="nd">Ndebele</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Chat Body -->
+          <div class="chat-body p-4 flex-grow-1 overflow-y-auto" id="chatBody"
+            style="background-image: radial-gradient(rgba(0,0,0,0.05) 1px, transparent 1px); background-size: 32px 32px;">
+            
+            <div class="bot-bubble mb-4 animate__animated animate__fadeIn">
+              <div class="bubble-content shadow-sm">
+                Hello farmer! I am Plotty 🌱. I am here to help you decipher your soil analysis and optimize your harvest. How can I assist you today? 🌾
+              </div>
+              <div class="bubble-time">Just now</div>
+            </div>
+
+          </div>
+
+          <!-- Chat Footer -->
+          <div class="p-4 bg-light border-top">
+            <div class="input-group glass-panel p-2 rounded-pill border-0 bg-white shadow-sm">
+              <button id="cameraBtn" class="btn btn-link text-muted px-3" title="Upload Image">
+                <i class='bx bx-camera fs-4'></i>
+                <input type="file" id="cameraUpload" accept="image/*" class="d-none">
+              </button>
+              <input type="text" id="chatInput" class="form-control border-0 shadow-none bg-transparent py-2"
+                placeholder="Ask Plotty 🌱 about your soil...">
+              <button id="voiceBtn" class="btn btn-link text-muted px-2" title="Voice Input">
+                <i class='bx bx-microphone fs-4'></i>
+              </button>
+              <button id="sendChat" class="btn btn-primary rounded-pill px-4 ms-2 d-flex align-items-center">
+                <i class='bx bx-send'></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .chat-body {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0,0,0,0.1) transparent;
+  }
+
+  .chat-body::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .chat-body::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.1);
+    border-radius: 10px;
+  }
+
+  .bot-bubble,
+  .user-bubble {
+    display: flex;
+    flex-direction: column;
+    max-width: 80%;
+  }
+
+  .bot-bubble {
+    align-self: flex-start;
+  }
+
+  .user-bubble {
+    align-self: flex-end;
+  }
+
+  .bubble-content {
+    padding: 1rem 1.4rem;
+    border-radius: 1.5rem;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .bot-bubble .bubble-content {
+    background: white;
+    color: var(--text-main);
+    border-bottom-left-radius: 4px;
+    border: 1px solid rgba(0,0,0,0.05);
+  }
+
+  .user-bubble .bubble-content {
+    background: var(--primary-color);
+    color: white;
+    border-bottom-right-radius: 4px;
+  }
+
+  .bubble-time {
+    font-size: 0.7rem;
+    color: #94a3b8;
+    margin-top: 6px;
+    padding: 0 8px;
+  }
+
+  .user-bubble .bubble-time {
+    text-align: right;
+  }
+
+  .typing-indicator .bubble-content {
+    background: transparent;
+    border: none;
+    padding: 0.5rem 1rem;
+    font-style: italic;
+    color: #94a3b8;
+  }
+</style>
+
+
+{% endblock content %}

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arable Atlas - AI Farming Assistant</title>
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        #map {
+            height: 400px;
+            width: 80%;
+            margin: auto;
+            border: 2px solid #ddd;
+        }
+
+        /* Results Container */
+        .results-container {
+            width: 80%;
+            margin: 20px auto;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+            text-align: left;
+        }
+        .results-container h2 {
+            color: #28a745;
+        }
+
+        /* Floating Chatbot Button */
+        .fab {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: #28a745;
+            color: white;
+            border-radius: 50%;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+        }
+
+        /* Chatbot */
+        .chat-container {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 300px;
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            display: none;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+        }
+        .chat-header {
+            background: #28a745;
+            color: white;
+            padding: 10px;
+            text-align: left;
+            font-weight: bold;
+            cursor: pointer;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+        .chat-body {
+            padding: 10px;
+            height: 250px;
+            overflow-y: auto;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+        }
+        .chat-footer {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #ccc;
+        }
+        .chat-footer input {
+            flex: 1;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .chat-footer button {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Arable Atlas - AI Farming Assistant</h1>
+
+     <div class="upload-container">
+        <h2>Upload a Soil Image for Analysis</h2>
+        <form id="uploadForm" enctype="multipart/form-data">
+          <input type="file" id="fileInput" name="image" required>
+            <button type="submit">Upload</button>
+        </form>
+    </div>
+
+    <button id="getLocation">Use My Location</button>
+    <div id="map"></div>
+    <button id="processAnalysis">Process Analysis</button> <br>
+    
+    <div id="gpsInfo">
+      <h3>📍 Detected Location</h3>
+      <p><b>Latitude:</b> <span id="latitude">N/A</span></p>
+      <p><b>Longitude:</b> <span id="longitude">N/A</span></p>
+      <p><b>Location Name:</b> <span id="locationName">N/A</span></p>
+    </div>
+  
+  
+
+    <div class="results-container" id="results">
+      <h2>Soil Analysis Results</h2>
+        <p><strong>Soil Type:</strong> <span id="soilType">-</span></p>
+        <p><strong>pH Level:</strong> <span id="phLevel">-</span></p>
+        <p><strong>Moisture:</strong> <span id="moisture">-</span>%</p>
+        <p><strong>Nitrogen:</strong> <span id="nitrogen">-</span> g/kg</p>
+        <p><strong>Clay Content:</strong> <span id="clay">-</span>%</p>
+        <p><strong>Sand Content:</strong> <span id="sand">-</span>%</p>
+        <p><strong>Silt Content:</strong> <span id="silt">-</span>%</p>
+        <p><strong>Recommended Crops:</strong> <span id="crops">-</span></p>
+    </div>
+   
+    <!-- Floating Chatbot Button -->
+    <button class="fab" id="chatbotFab">💬</button>
+
+    <!-- Chatbot Window -->
+    <div class="chat-container" id="chatContainer">
+        <div class="chat-header" id="chatHeader">Plotty 🌱, The Assistant ✨</div>
+        <div class="chat-body" id="chatBody">
+            <div class="assistant-message"><strong>Plotty 🌱:</strong> Hi there! Ask me anything about farming 🌱</div>
+        </div>
+        <div class="chat-footer">
+            <input type="text" id="chatInput" placeholder="Type a question..." />
+            <button id="sendChat">➤</button>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
+

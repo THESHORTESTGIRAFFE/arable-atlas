@@ -1,0 +1,88 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+<section class="py-5">
+  <div class="container">
+    <div
+      class="row justify-content-center mb-5 animate__animated animate__fadeIn">
+      <div class="col-lg-8 text-center">
+        <h2 class="fw-black display-5 text-primary mb-3">Get in Touch</h2>
+        <p class="lead text-muted">Have questions about your land or our
+          technology? We're here to help you grow better harvests.</p>
+      </div>
+    </div>
+
+    <div class="row g-4 align-items-stretch">
+      <!-- Map Column -->
+      <div class="col-lg-6">
+        <div class="glass-panel p-2 h-100 animate__animated animate__fadeInLeft"
+          style="min-height: 400px;">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d479496.31033212313!2d28.265464973919492!3d-20.131338835465797!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1eb553f3a8738f73%3A0x1d2d555c3f07ed7e!2sBulawayo!5e0!3m2!1sen!2szw!4v1745350664724!5m2!1sen!2szw"
+            width="100%" height="100%" style="border:0; border-radius: 12px;"
+            allowfullscreen="" loading="lazy"></iframe>
+        </div>
+      </div>
+
+      <!-- Info Column -->
+      <div class="col-lg-6">
+        <div
+          class="glass-panel p-5 h-100 animate__animated animate__fadeInRight">
+          <h3 class="fw-bold mb-4">Contact Information</h3>
+
+          <div class="d-flex mb-4">
+            <div
+              class="bg-primary-subtle text-primary rounded-circle d-flex align-items-center justify-content-center me-3"
+              style="width: 50px; height: 50px; flex-shrink: 0;">
+              <i class='bx bx-map fs-3'></i>
+            </div>
+            <div>
+              <h6 class="fw-bold mb-1">Address</h6>
+              <p class="text-muted mb-0">Bulawayo, Zimbabwe</p>
+            </div>
+          </div>
+
+          <div class="d-flex mb-4">
+            <div
+              class="bg-success-subtle text-success rounded-circle d-flex align-items-center justify-content-center me-3"
+              style="width: 50px; height: 50px; flex-shrink: 0;">
+              <i class='bx bx-phone fs-3'></i>
+            </div>
+            <div>
+              <h6 class="fw-bold mb-1">Phone</h6>
+              <a href="tel:+263772688336"
+                class="text-decoration-none text-muted">(263) 77 268 8336</a>
+            </div>
+          </div>
+
+          <div class="d-flex mb-5">
+            <div
+              class="bg-warning-subtle text-warning rounded-circle d-flex align-items-center justify-content-center me-3"
+              style="width: 50px; height: 50px; flex-shrink: 0;">
+              <i class='bx bx-envelope fs-3'></i>
+            </div>
+            <div>
+              <h6 class="fw-bold mb-1">Email</h6>
+              <a href="mailto:hi@emmorphic.co.zw"
+                class="text-decoration-none text-muted">hi@emmorphic.co.zw</a>
+            </div>
+          </div>
+
+          <div class="p-4 bg-light rounded-4">
+            <h6 class="fw-bold mb-2">Office Hours</h6>
+            <div class="d-flex justify-content-between small text-muted">
+              <span>Monday - Friday</span>
+              <span>8:00 AM - 5:00 PM</span>
+            </div>
+            <div class="d-flex justify-content-between small text-muted mt-1">
+              <span>Saturday</span>
+              <span>9:00 AM - 1:00 PM</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock content %}
