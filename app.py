@@ -11,12 +11,14 @@ from models import db, FarmPlot, FarmProfile
 from translations import CATALOGS, LANGUAGES, normalize_language, translate
 from utils import extract_gps, analyse_soil_image, ask_gemini, classify_soil_texture
 from weather import get_forecast, build_action_plan
+from ussd_demo import demo as ussd_demo_blueprint
 
 app = Flask(__name__)
 app.config.from_object(Config)
 app.config['UPLOAD_FOLDER'] = os.path.join(app.root_path, 'uploads')
 app.config['SESSION_COOKIE_HTTPONLY'] = True
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
+app.register_blueprint(ussd_demo_blueprint)
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 db.init_app(app)
 with app.app_context():

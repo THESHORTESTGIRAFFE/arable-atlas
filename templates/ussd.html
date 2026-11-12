@@ -1,0 +1,44 @@
+{% extends 'layout.html' %}
+{% block content %}
+<section class="py-5"><div class="container">
+  <span class="metric-badge" data-i18n="ussd_badge">No smartphone needed</span>
+  <h1 class="display-6 fw-bold mt-3" data-i18n="ussd_title">Plotty on any phone</h1>
+  <p class="lead text-muted" data-i18n="ussd_intro">Choose advice through a simple USSD menu. Receive a short SMS you can read later.</p>
+  <div class="alert alert-info" data-i18n="ussd_demo_note">Demo simulator only. No real shortcode, phone number, or SMS delivery. Weather uses the configured API; Ask Plotty uses Gemini and may incur AI usage costs.</div>
+  <div class="row g-4 align-items-start mt-1">
+    <div class="col-lg-5">
+      <div class="feature-phone mx-auto">
+        <div class="phone-brand">ARABLE ATLAS</div>
+        <div class="phone-screen">
+          <div class="d-flex justify-content-between border-bottom pb-2 mb-3 small"><span>Plotty</span><span data-i18n="ussd_simulated">SIMULATED</span></div>
+          <pre id="ussdScreen" class="ussd-display" aria-live="polite" data-i18n="ussd_idle">Press Dial to start.</pre>
+          <form id="ussdForm" class="d-none">
+            <label for="ussdInput" class="small" data-i18n="ussd_reply">Your reply</label>
+            <input id="ussdInput" class="form-control mt-1 mb-2" maxlength="500" autocomplete="off">
+            <div class="d-flex gap-2"><button id="ussdSend" class="btn btn-sm btn-dark flex-grow-1" data-i18n="send">Send message</button><button type="button" id="ussdCancel" class="btn btn-sm btn-outline-dark" data-i18n="ussd_cancel">End</button></div>
+          </form>
+        </div>
+        <button id="ussdDial" class="btn btn-success w-100 rounded-pill my-3" data-i18n="ussd_dial">Dial demo menu</button>
+        <div class="phone-keypad" aria-label="Demo phone keypad">
+          {% for key in ['1','2','3','4','5','6','7','8','9','*','0','#'] %}<button type="button" class="phone-key" data-key="{{ key }}">{{ key }}</button>{% endfor %}
+        </div>
+        <p class="small text-center text-white-50 mt-3 mb-0" data-i18n="ussd_not_dialable">Browser simulation, not a dialable code</p>
+      </div>
+      <p id="ussdStatus" class="small text-center mt-3" role="status" aria-live="polite"></p>
+    </div>
+    <div class="col-lg-7">
+      <section class="glass-panel bg-white p-4" aria-labelledby="smsHeading">
+        <div class="d-flex flex-wrap justify-content-between gap-2"><h2 id="smsHeading" class="h4" data-i18n="sms_inbox">Plotty SMS inbox</h2><span class="badge rounded-pill bg-success-subtle text-success align-self-start" data-i18n="sms_no_delivery">No real messages sent</span></div>
+        <p class="small text-muted" data-i18n="sms_inbox_note">Messages appear here after the USSD session ends. This inbox belongs to your browser session.</p>
+        <div id="smsInbox" class="d-flex flex-column gap-3" aria-live="polite"></div>
+      </section>
+      <section class="glass-panel bg-white p-4 mt-4">
+        <h2 class="h5" data-i18n="ussd_cost_title">Built to keep costs down</h2>
+        <ul class="small ps-3 mb-0"><li data-i18n="ussd_cost_templates">Weather and soil summaries use templates and cached data, with no AI call.</li><li data-i18n="ussd_cost_sms">Messages target a maximum of two SMS segments. Encoding affects segment count.</li><li data-i18n="ussd_cost_async">The menu closes immediately; slower work runs in the background.</li></ul>
+        <p class="small text-muted mt-3 mb-0" data-i18n="ussd_live_note">Live service will need a country-specific carrier or gateway, an assigned shortcode, SMS credits, and a public HTTPS callback. No live connectivity is configured here.</p>
+      </section>
+    </div>
+  </div>
+</div></section>
+<script src="{{ url_for('static', filename='js/ussd.js') }}" defer></script>
+{% endblock %}

@@ -22,8 +22,8 @@ def check_python_version():
     print(f"✅ Python version {sys.version.split()[0]} is compatible.")
 
 def install_dependencies():
-    print("\n[2/4] Installing Python dependencies from 'req'...")
-    req_file = "req"
+    print("\n[2/4] Installing Python dependencies from 'req.txt'...")
+    req_file = "req.txt"
     if not os.path.exists(req_file):
         print(f"❌ Error: Requirement file '{req_file}' not found.")
         sys.exit(1)

@@ -33,3 +33,31 @@ class FarmProfile(db.Model):
     plot = db.relationship(FarmPlot, backref=db.backref('profile', uselist=False, cascade='all, delete-orphan'))
 
 
+class UssdDemoSession(db.Model):
+    id = db.Column(db.String(48), primary_key=True)
+    owner_id = db.Column(db.String(64), nullable=False, index=True)
+    language = db.Column(db.String(5), nullable=False, default='en')
+    area = db.Column(db.String(30), nullable=True)
+    stage = db.Column(db.String(30), nullable=False, default='menu')
+    pending_topic = db.Column(db.String(20), nullable=True)
+    revision = db.Column(db.Integer, nullable=False, default=0)
+    updated_at = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
+
+
+class DemoSms(db.Model):
+    """A simulated SMS outbox. No real telephone number or delivery credentials."""
+    id = db.Column(db.Integer, primary_key=True)
+    owner_id = db.Column(db.String(64), nullable=False, index=True)
+    session_id = db.Column(db.String(48), db.ForeignKey('ussd_demo_session.id'), nullable=False, unique=True)
+    language = db.Column(db.String(5), nullable=False)
+    topic = db.Column(db.String(20), nullable=False)
+    area = db.Column(db.String(30), nullable=False)
+    question = db.Column(db.String(500), nullable=True)
+    status = db.Column(db.String(20), nullable=False, default='queued')
+    body = db.Column(db.Text, nullable=True)
+    encoding = db.Column(db.String(10), nullable=True)
+    segments = db.Column(db.Integer, nullable=True)
+    source = db.Column(db.String(200), nullable=True)
+    created_at = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
+
+
