@@ -20,5 +20,6 @@ Thumbs.db
 
 # Project specific
 uploads/
+instance/
 results/
 static/video/hero-bg.mp4

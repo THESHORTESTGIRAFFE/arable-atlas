@@ -1,0 +1,2 @@
+-r req
+pytest>=8,<10
