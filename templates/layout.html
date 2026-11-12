@@ -44,7 +44,7 @@
 <body>
 
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg sticky-top py-3">
+    <nav class="navbar navbar-expand-xl sticky-top py-3">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="{{ url_for('index') }}">
                 <i class='bx bx-leaf me-2'></i>
@@ -58,21 +58,28 @@
             <div class="collapse navbar-collapse" id="navMain">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('home') }}">Analyze</a>
+                        <a class="nav-link" href="{{ url_for('home') }}" data-i18n="analyze">Analyze</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('services') }}">Services</a>
+                        <a class="nav-link" href="{{ url_for('services') }}" data-i18n="services">Services</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('about') }}">Story</a>
+                        <a class="nav-link" href="{{ url_for('about') }}" data-i18n="story">Story</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('contact') }}">Talk to Us</a>
+                        <a class="nav-link" href="{{ url_for('contact') }}" data-i18n="contact">Talk to Us</a>
                     </li>
                     <li class="nav-item ms-lg-3">
                         <a href="{{ url_for('assistant') }}" class="btn-modern btn-primary-modern text-decoration-none d-inline-block px-4 py-2">
                             <i class='bx bx-bot me-2'></i>Plotty 🌱
                         </a>
+                    </li>
+                    <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
+                        <label for="languageSelect" class="visually-hidden" data-i18n="language">Language</label>
+                        <select id="languageSelect" class="form-select form-select-sm rounded-pill" style="min-width: 120px;">
+                            <option value="en">English</option><option value="sn">Shona</option><option value="nd">Ndebele</option>
+                            <option value="fr">Français</option><option value="es">Español</option><option value="zh">中文（普通话）</option>
+                        </select>
                     </li>
                 </ul>
             </div>
@@ -116,6 +123,8 @@
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script id="translationCatalogs" type="application/json">{{ catalogs | tojson }}</script>
+    <script src="{{ url_for('static', filename='js/i18n.js') }}"></script>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
     {% if request.endpoint == 'assistant' %}
     <script src="{{ url_for('static', filename='js/assistant.js') }}"></script>

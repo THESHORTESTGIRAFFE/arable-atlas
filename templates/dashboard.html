@@ -1,146 +1,113 @@
 {% extends 'layout.html' %}
 {% block content %}
-
 <section class="py-5">
   <div class="container">
-    <div class="row mb-5 align-items-end">
-      <div class="col-lg-8">
-        <span class="metric-badge mb-3">Analysis Center</span>
-        <h2 class="display-6 fw-bold text-primary mb-2">Soil Intelligence Dashboard</h2>
-        <p class="text-muted lead fs-6">Map your land, upload samples, and receive precision data in real-time.</p>
-      </div>
-      <div class="col-lg-4 text-lg-end">
-        <div class="glass-panel d-inline-flex align-items-center p-2 px-3 bg-success-subtle text-success border-0 small fw-bold">
-          <i class='bx bxs-bolt me-2 animate__animated animate__pulse animate__infinite'></i> Powered by Plotty 🌱
-        </div>
+    <div class="d-flex flex-wrap justify-content-between gap-3 align-items-start mb-4">
+      <div><span class="metric-badge">Arable Atlas · Plotty 🌱</span>
+        <h1 class="display-6 fw-bold text-primary mt-3" data-i18n="dashboard">Soil Intelligence Dashboard</h1>
+        <p class="text-muted" data-i18n="intro">Understand your soil, plan with the forecast, and ask Plotty in your language.</p>
       </div>
     </div>
-
+    <div id="dashboardStatus" class="alert d-none" role="status" aria-live="polite"></div>
     <div class="row g-4">
-      <!-- Left Column: Interaction -->
       <div class="col-lg-7">
-        <div class="glass-panel p-4 mb-4 bg-white">
-          <div class="d-flex justify-content-between align-items-center mb-4">
-            <h5 class="mb-0 fw-bold"><i class='bx bx-map-alt me-2 text-primary'></i>Interactive Mapping</h5>
-            <button class="btn btn-sm btn-outline-primary rounded-pill px-3 fw-bold" id="getLocation">
-              <i class='bx bx-current-location me-1'></i> Find Me
-            </button>
+        <div class="glass-panel p-4 bg-white mb-4">
+          <div class="d-flex flex-wrap justify-content-between gap-2 align-items-center mb-3">
+            <h2 class="h5 mb-0" data-i18n="mapping">Interactive Mapping</h2>
+            <button class="btn btn-sm btn-outline-primary rounded-pill" id="getLocation" data-i18n="find">Find Me</button>
           </div>
-          <div id="map" class="mb-4" style="height: 450px;"></div>
-          <div class="d-grid">
-            <button class="btn-modern btn-primary-modern py-3" id="processAnalysis">
-              Analyze Selected Coordinates
-            </button>
-          </div>
+          <div id="map" style="height: 390px;" aria-label="Field location map"></div>
+          <button class="btn-modern btn-primary-modern w-100 mt-3" id="processAnalysis" data-i18n="process">Analyze Selected Coordinates</button>
+          <button class="btn btn-outline-primary rounded-pill w-100 mt-2" id="demoField" data-i18n="demo_field">Try the demo field · Harare outskirts</button>
+          <script id="demoFieldCoordinates" type="application/json">{{ demo_field | tojson }}</script>
         </div>
-
         <div class="glass-panel p-4 bg-white">
-          <h5 class="fw-bold mb-4"><i class='bx bx-cloud-upload me-2 text-success'></i>Upload Soil Sample</h5>
+          <h2 class="h5" data-i18n="upload_title">Use a Geotagged Field Photo</h2>
+          <p class="text-muted small" data-i18n="photo_hint">JPG with GPS metadata. Uses location to look up soil estimates; does not inspect the photo.</p>
           <form id="uploadForm" enctype="multipart/form-data">
-            <div class="upload-area border-2 border-dashed rounded-4 p-5 text-center mb-4 transition-all" style="border-color: #e5e7eb; background: #fafafa;">
-              <input type="file" id="fileInput" name="image" required class="d-none">
-              <label for="fileInput" class="cursor-pointer w-100">
-                <i class='bx bx-image-add display-4 text-muted mb-3 d-block'></i>
-                <span class="fw-bold text-dark d-block mb-1">Select soil photography</span>
-                <span class="text-muted small">Supports high-res JPG/PNG with GPS metadata</span>
-              </label>
-            </div>
-            <div class="d-grid">
-              <button class="btn-modern btn-primary-modern py-3" type="submit">
-                Process Image Analysis
-              </button>
-            </div>
+            <label class="form-label" for="fileInput" data-i18n="photo_select">Select a field photo</label>
+            <input type="file" id="fileInput" name="image" accept="image/jpeg,image/png" required class="form-control mb-3">
+            <button class="btn btn-outline-primary rounded-pill w-100" type="submit" data-i18n="photo_process">Look Up Soil at Photo Location</button>
           </form>
         </div>
+        <details class="glass-panel p-4 bg-white mt-4" id="manualSoilPanel">
+          <summary class="h5 mb-0" data-i18n="manual_title">Enter soil-test results</summary>
+          <p class="small text-muted mt-3" data-i18n="manual_help">Use your own test results if map data is unavailable. Enter pH and sample depth; other properties are optional. Values are stored as user-entered, not verified laboratory data.</p>
+          <form id="manualSoilForm" class="row g-3">
+            <div class="col-6"><label for="manualLat" class="form-label" data-i18n="latitude">Latitude</label><input id="manualLat" name="lat" type="number" min="-90" max="90" step="any" required class="form-control"></div>
+            <div class="col-6"><label for="manualLon" class="form-label" data-i18n="longitude">Longitude</label><input id="manualLon" name="lon" type="number" min="-180" max="180" step="any" required class="form-control"></div>
+            <div class="col-6"><label for="manualPh" class="form-label" data-i18n="ph">pH level</label><input id="manualPh" name="ph" type="number" min="0" max="14" step="any" required class="form-control"></div>
+            <div class="col-6"><label for="manualSampleDate" class="form-label" data-i18n="sample_date">Sample date (optional)</label><input id="manualSampleDate" name="sample_date" type="date" class="form-control"></div>
+            <div class="col-6"><label for="manualTop" class="form-label" data-i18n="depth_top">Top depth (cm)</label><input id="manualTop" name="depth_top_cm" type="number" min="0" max="199" step="any" value="0" required class="form-control"></div>
+            <div class="col-6"><label for="manualBottom" class="form-label" data-i18n="depth_bottom">Bottom depth (cm)</label><input id="manualBottom" name="depth_bottom_cm" type="number" min="0" max="200" step="any" value="20" required class="form-control"></div>
+            <div class="col-6"><label for="manualNitrogen" class="form-label"><span data-i18n="nitrogen">Total nitrogen</span> (g/kg)</label><input id="manualNitrogen" name="nitrogen" type="number" min="0" max="100" step="any" class="form-control"></div>
+            <div class="col-6"><label for="manualCarbon" class="form-label"><span data-i18n="carbon">Organic carbon density</span> (kg/m³)</label><input id="manualCarbon" name="organic_carbon_density" type="number" min="0" max="1000" step="any" class="form-control"></div>
+            <div class="col-4"><label for="manualClay" class="form-label"><span data-i18n="clay">Clay</span> (%)</label><input id="manualClay" name="clay" type="number" min="0" max="100" step="any" class="form-control"></div>
+            <div class="col-4"><label for="manualSand" class="form-label"><span data-i18n="sand">Sand</span> (%)</label><input id="manualSand" name="sand" type="number" min="0" max="100" step="any" class="form-control"></div>
+            <div class="col-4"><label for="manualSilt" class="form-label"><span data-i18n="silt">Silt</span> (%)</label><input id="manualSilt" name="silt" type="number" min="0" max="100" step="any" class="form-control"></div>
+            <p class="small text-muted mb-0" data-i18n="texture_hint">Enter all three texture percentages totaling 100%, or leave all three blank. Leave unmeasured properties blank.</p>
+            <div class="col-12"><button id="useManualSoil" class="btn btn-outline-primary rounded-pill w-100" data-i18n="manual_submit">Use these test results</button></div>
+          </form>
+        </details>
       </div>
-
-      <!-- Right Column: Results -->
       <div class="col-lg-5">
-        <div class="glass-panel results-card bg-white shadow-lg border-0">
-          <div class="d-flex justify-content-between align-items-center mb-5">
-            <h4 class="fw-bold mb-0">Analysis Results</h4>
-            <div id="loader" class="spinner-border text-primary spinner-border-sm" role="status" style="display: none;">
-              <span class="visually-hidden">Loading...</span>
-            </div>
+        <div class="glass-panel p-4 bg-white h-100">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="h4 mb-0" data-i18n="results">Analysis Results</h2>
+            <span id="loader" class="spinner-border spinner-border-sm text-primary d-none" role="status"></span>
           </div>
-
-          <div id="results" class="results-content">
-            <!-- Location Info -->
-            <div class="mb-5 p-4 rounded-4 bg-light border-0">
-              <h6 class="text-uppercase text-muted small fw-bold mb-3 tracking-widest">📍 Location Context</h6>
-              <div class="d-flex justify-content-between mb-2">
-                <span class="text-muted small">Latitude</span>
-                <span class="fw-bold font-mono" id="latitude">-</span>
-              </div>
-              <div class="d-flex justify-content-between mb-2">
-                <span class="text-muted small">Longitude</span>
-                <span class="fw-bold font-mono" id="longitude">-</span>
-              </div>
-              <p class="mb-0 text-primary small fw-bold mt-3 border-top pt-3" id="locationName">
-                Pending Selection
-              </p>
-            </div>
-
-            <!-- Soil Metrics -->
-            <div class="row g-3 mb-5">
-              <div class="col-6">
-                <div class="p-4 border rounded-4 text-center bg-white shadow-sm">
-                  <span class="metric-badge">pH LEVEL</span>
-                  <h2 class="mb-0 fw-black font-mono" id="phLevel">-</h2>
-                </div>
-              </div>
-              <div class="col-6">
-                <div class="p-4 border rounded-4 text-center bg-white shadow-sm">
-                  <span class="metric-badge">MOISTURE</span>
-                  <h2 class="mb-0 fw-black font-mono"><span id="moisture">-</span>%</h2>
-                </div>
-              </div>
-            </div>
-
-            <!-- Detailed Specs -->
-            <div class="specs-grid mb-5">
-              <div class="mb-3 d-flex justify-content-between align-items-center border-bottom pb-2">
-                <span class="text-muted small">Soil Classification</span>
-                <span class="fw-bold" id="soilType">Pending</span>
-              </div>
-              <div class="mb-3 d-flex justify-content-between align-items-center border-bottom pb-2">
-                <span class="text-muted small">Nitrogen Content</span>
-                <span class="fw-bold font-mono"><span id="nitrogen">-</span> g/kg</span>
-              </div>
-              <div class="mb-3 d-flex justify-content-between align-items-center border-bottom pb-2">
-                <span class="text-muted small">Clay Content</span>
-                <span class="fw-bold font-mono"><span id="clay">-</span>%</span>
-              </div>
-            </div>
-
-            <!-- AI Recommendations -->
-            <div class="mt-auto p-5 bg-primary text-white rounded-4 shadow-lg position-relative overflow-hidden">
-              <div class="z-10 position-relative">
-                <h6 class="fw-bold mb-4 d-flex align-items-center tracking-wide text-uppercase" style="font-size: 0.75rem; letter-spacing: 0.05em;">
-                    <i class='bx bx-brain me-2 fs-5'></i>Plotty Recommendation
-                </h6>
-                <p id="cropsText" class="mb-0 fs-6 opacity-90 leading-relaxed italic">
-                  Select a point or upload a sample to begin the recommendation engine.
-                </p>
-              </div>
-              <i class='bx bxs-leaf position-absolute opacity-10' style="font-size: 150px; bottom: -40px; right: -20px;"></i>
-            </div>
+          <p id="locationName" class="fw-bold text-primary" data-i18n="pending">Select a field to begin</p>
+          <div class="d-flex gap-3 small text-muted mb-3"><span><span data-i18n="latitude">Latitude</span>: <span id="latitude">—</span></span><span><span data-i18n="longitude">Longitude</span>: <span id="longitude">—</span></span></div>
+          <div class="row g-3 mb-4">
+            <div class="col-5"><div class="p-3 bg-light rounded-4 h-100"><span class="small" data-i18n="ph">pH level</span><div class="fs-2 fw-bold" id="phLevel">—</div></div></div>
+            <div class="col-7"><div class="p-3 bg-light rounded-4 h-100"><span class="small" data-i18n="carbon">Organic carbon density</span><div class="fs-3 fw-bold"><span id="organic_carbon_density">—</span> <small class="fs-6">kg/m³</small></div></div></div>
           </div>
+          <dl class="row small">
+            <dt class="col-6" data-i18n="soil">Soil texture</dt><dd class="col-6" id="soilType">—</dd>
+            <dt class="col-6" data-i18n="nitrogen">Total nitrogen</dt><dd class="col-6"><span id="nitrogen">—</span> g/kg</dd>
+            <dt class="col-6" data-i18n="clay">Clay</dt><dd class="col-6"><span id="clay">—</span>%</dd>
+            <dt class="col-6" data-i18n="sand">Sand</dt><dd class="col-6"><span id="sand">—</span>%</dd>
+            <dt class="col-6" data-i18n="silt">Silt</dt><dd class="col-6"><span id="silt">—</span>%</dd>
+          </dl>
+          <p id="soilProvenance" class="small text-muted" data-i18n="estimate_note">SoilGrids estimates · 250 m grid · top 0–5 cm. Not a lab test. Moisture is not measured.</p>
+          <p id="soilAccess" class="small text-muted"></p>
+          <p id="soilMissing" class="small text-warning-emphasis"></p>
+          <div class="p-4 bg-primary text-white rounded-4">
+            <h3 class="h6" data-i18n="recommendation">Plotty’s crop suggestions</h3>
+            <div id="cropBadges" class="d-flex flex-wrap gap-2 my-3"></div>
+            <p id="cropsText" class="mb-0 report-text" data-i18n="pending">Select a field to begin</p>
+          </div>
+          <a href="{{ url_for('assistant') }}" id="discussField" class="btn btn-outline-primary rounded-pill w-100 mt-3" data-i18n="ask_plotty">Discuss this field with Plotty</a>
         </div>
       </div>
     </div>
+    <section class="glass-panel p-4 bg-white mt-4" aria-labelledby="weatherHeading">
+      <div class="d-flex flex-wrap justify-content-between gap-2 align-items-start mb-3">
+        <div><h2 id="weatherHeading" class="h4" data-i18n="weather">Five-day field outlook</h2><p class="small text-muted mb-0" data-i18n="weather_note">OpenWeatherMap · forecast, not observed conditions · first and last days may be partial.</p></div>
+        <time id="forecastTime" class="small text-muted"></time>
+      </div>
+      <div id="forecastDays" class="forecast-grid"><p class="text-muted" data-i18n="pending">Select a field to begin</p></div>
+    </section>
+    <section class="glass-panel p-4 bg-white mt-4" aria-labelledby="planHeading">
+      <h2 id="planHeading" class="h4" data-i18n="plan">Your field action plan</h2>
+      <p class="small text-muted" data-i18n="plan_note">General field checks based on forecast thresholds. Confirm soil moisture on site; crop-specific irrigation volumes and planting suitability are not calculated.</p>
+      <form id="planForm" class="row g-3 align-items-end mb-4">
+        <div class="col-md-4"><label for="fieldCrop" class="form-label" data-i18n="crop">Crop (optional)</label><input id="fieldCrop" maxlength="100" class="form-control" autocomplete="off"></div>
+        <div class="col-md-4"><label for="plantingDate" class="form-label" data-i18n="planting">Planting date (optional)</label><input id="plantingDate" type="date" class="form-control"></div>
+        <div class="col-md-4"><button id="refreshPlan" class="btn btn-outline-primary rounded-pill w-100" data-i18n="refresh">Refresh forecast & plan</button></div>
+      </form>
+      <div id="actionDays" class="row g-3"><p class="text-muted" data-i18n="pending">Select a field to begin</p></div>
+      <hr class="my-4">
+      <form id="saveFieldForm" class="row g-3 align-items-end">
+        <div class="col-md-7"><label for="fieldName" class="form-label" data-i18n="field_name">Field name</label><input id="fieldName" maxlength="100" required class="form-control"></div>
+        <div class="col-md-5"><button id="saveField" class="btn-modern btn-primary-modern w-100" data-i18n="save">Save field report</button></div>
+      </form>
+    </section>
+    <section class="mt-5" aria-labelledby="savedHeading">
+      <h2 id="savedHeading" class="h4" data-i18n="saved_fields">My saved fields</h2>
+      <p class="text-muted small" data-i18n="saved_note">Saved reports belong to this browser session. Save a new report to keep a history of changes.</p>
+      <div id="savedFields" class="row g-3" aria-live="polite"></div>
+    </section>
   </div>
 </section>
-
-<style>
-  .upload-area:hover {
-    background: #f3f4f6 !important;
-    border-color: var(--primary-color) !important;
-  }
-  .italic {
-    font-style: italic;
-  }
-</style>
-
-
-{% endblock content %}
+{% endblock %}

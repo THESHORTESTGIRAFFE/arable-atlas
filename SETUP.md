@@ -1,63 +1,19 @@
-# Arable Atlas - Setup & Installation
+# Arable Atlas setup
 
-This application provides AI-powered agricultural guidance based on soil and weather data.
+See [README.md](README.md) for the current workflow, data limits, and language support.
 
-## Prerequisites
+1. Install Python 3.10 or newer.
+2. Create a virtual environment: `python -m venv .venv`.
+3. Install runtime dependencies: `.venv\Scripts\python -m pip install -r req`.
+4. Copy `.env.example` to `.env` and set `GEMINI_API_KEY`, `OPENWEATHER_API_KEY`, `DATABASE_URL`, and a stable random `SECRET_KEY`.
+5. Optionally set `GEMINI_MODEL` to a text-generation model available to your Google project.
+6. Start development: `.venv\Scripts\python app.py` and open http://localhost:5000.
+7. Start Waitress: `.venv\Scripts\python run_production.py`.
 
-- **Python 3.9+**
-- **pip** (Python package manager)
-- **Git**
-- **Google Gemini API Key** (for AI functionality)
-- **OpenWeatherMap API Key** (for real-time weather)
+The database tables are created automatically. Existing farm rows are preserved; only reports saved by the current browser session are listed.
 
-## Environment Setup
+For verification, install `req-dev` and run `.venv\Scripts\python -m pytest -q`.
 
-1.  **Clone the repository:**
-    ```bash
-    git clone https://github.com/THESHORTESTGIRAFFE/arable-atlas.git
-    cd arable-atlas
-    ```
+To prepare the demo field's soil data, run `.venv\Scripts\python prefetch_soil.py --lat -17.9 --lon 31.05 --radius-km 10` before presenting. The current checkout already has this area cached. The maps are ignored by Git; copy `instance/soil_cache` or run prefetch again when deploying. Set `SOIL_OFFLINE=true` to use only cached soil maps. Weather, AI, geocoding, and map tiles still need internet.
 
-2.  **Create a `.env` file:**
-    Copy the `.env.example` file and populate it with your actual API keys.
-    ```bash
-    cp .env.example .env
-    ```
-
-    Open the `.env` file and set the required variables:
-    ```text
-    GEMINI_API_KEY=your_gemini_api_key_here
-    OPENWEATHER_API_KEY=your_openweather_api_key_here
-    DATABASE_URL=sqlite:///agrimap.db
-    SECRET_KEY=a_secure_random_string
-    ```
-
-## Installation
-
-1.  **Create a virtual environment (optional but recommended):**
-    ```bash
-    python -m venv venv
-    source venv/bin/activate  # On Windows use: venv\Scripts\activate
-    ```
-
-2.  **Install dependencies:**
-    ```bash
-    pip install -r req
-    ```
-
-## Running the Application
-
-1.  **Run the Flask application:**
-    ```bash
-    python app.py
-    ```
-
-2.  **Access the application:**
-    Open your web browser and navigate to `http://localhost:5000`.
-
-## Production
-
-For production deployment, use the provided production script:
-```bash
-python run_production.py
-```
+If a location has no soil coverage, expand **Enter soil-test results** and supply pH, the actual sample depth, and any measured optional properties. These remain labeled user-entered and unverified.
