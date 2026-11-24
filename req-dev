@@ -1,2 +1,2 @@
--r req
+-r req.txt
 pytest>=8,<10

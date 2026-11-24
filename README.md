@@ -50,7 +50,7 @@ Python 3.10+ is recommended.
 
 ```powershell
 python -m venv .venv
-.venv\Scripts\python -m pip install -r req
+.venv\Scripts\python -m pip install -r req.txt
 Copy-Item .env.example .env
 # Edit .env with your API keys and a stable random SECRET_KEY.
 .venv\Scripts\python app.py
@@ -71,6 +71,23 @@ SOIL_OFFLINE=false
 ```
 
 `GEMINI_MODEL` must name a text-generation model available to your Google project. The OpenWeatherMap key must have access to the five-day forecast endpoint.
+
+## USSD and SMS demonstration
+
+Open `/ussd` or select **USSD / SMS** in the navigation. This is a browser-based feature-phone simulator, not a live shortcode. It does not ask for a real telephone number, send carrier messages, or use SMS credits.
+
+1. Press **Dial demo menu**.
+2. Choose `2` for a soil SMS, then `1` for the cached Harare demonstration area.
+3. The menu ends immediately. A background worker creates a short message in the simulated inbox.
+4. Dial again to try a weather SMS (`1`), ask Plotty a question (`3`), or change language (`5`). All six languages are available. Weather and soil use templates with no AI call; questions use the existing Gemini credentials and may incur AI API charges.
+
+Soil summaries use already-cached SoilGrids values only, never new WCS downloads. Missing weather or soil data is stated explicitly. Each simulated inbox is scoped to the signed browser session. Duplicate terminal requests create only one message. The demo limits requests to ten per browser session per hour, with a small shared worker queue. Sessions expire after three minutes. Requests interrupted by a server restart eventually show as failed; the farmer can dial again.
+
+SMS text targets at most two segments. The segment estimator counts GSM-7 extension characters and Unicode UTF-16 units. Long replies keep complete sentences or fall back to a request for a more specific question rather than cutting an instruction in half. **Estimated segments are not a price quote.** [SMS encoding reference](https://www.twilio.com/docs/glossary/what-sms-character-limit).
+
+The browser talks to `/api/ussd/session` and polls `/api/ussd/inbox`; these are simulator endpoints authenticated by browser cookies, not public carrier callback endpoints. Live rollout needs country/network selection, provider provisioning, a registered shortcode and SMS sender, public HTTPS, authenticated gateway callbacks, durable workers and delivery receipts, plus phone-based consent and opt-out handling. No provider has been selected or live delivery configured.
+
+After source changes, stop and restart Waitress; it does not reload Python modules automatically. If `/contact` or other pages show a generic Waitress error after an update, restart the process in its terminal with `.venv\Scripts\python run_production.py`. The contact page's existing address, email, phone, and office hours are unchanged.
 
 ## Saved reports and privacy
 

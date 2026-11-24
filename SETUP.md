@@ -4,7 +4,7 @@ See [README.md](README.md) for the current workflow, data limits, and language s
 
 1. Install Python 3.10 or newer.
 2. Create a virtual environment: `python -m venv .venv`.
-3. Install runtime dependencies: `.venv\Scripts\python -m pip install -r req`.
+3. Install runtime dependencies: `.venv\Scripts\python -m pip install -r req.txt`.
 4. Copy `.env.example` to `.env` and set `GEMINI_API_KEY`, `OPENWEATHER_API_KEY`, `DATABASE_URL`, and a stable random `SECRET_KEY`.
 5. Optionally set `GEMINI_MODEL` to a text-generation model available to your Google project.
 6. Start development: `.venv\Scripts\python app.py` and open http://localhost:5000.

@@ -235,6 +235,10 @@ SOIL_MESSAGES = {
 for i, language in enumerate(LANGUAGES):
     CATALOGS[language].update({key: values[i] for key, values in SOIL_MESSAGES.items()})
 
+from ussd_translations import MESSAGES as USSD_MESSAGES
+for i, language in enumerate(LANGUAGES):
+    CATALOGS[language].update({key: values[i] for key, values in USSD_MESSAGES.items()})
+
 
 def normalize_language(value):
     return value if isinstance(value, str) and value in LANGUAGES else 'en'
